@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f7f9fc;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .header {
+      background: #0b2e8c;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-center { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .header-logo-wrap {
+      display: inline-flex; align-items: center;
+      flex-shrink: 0;
+    }
+    .header-logo-wrap img {
+      width: 180px;
+      height: auto;
+      display: block;
+    }
+    .header-title { color: white; font-size: 16px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+    .header-lang { position: absolute; right: 32px; }
+    .lang-toggle {
+      background: white;
+      border: none;
+      color: #0b2e8c;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-toggle::before { content: '🌐'; font-size: 14px; margin-right: 4px; }
+    .lang-toggle:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+    .btn-lang-welcome {
+      padding: 12px 22px;
+      border: 2px solid #0b2e8c;
+      border-radius: 10px;
+      background: #ebf4ff;
+      color: #0b2e8c;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-lang-welcome:hover { background: #d6e6ff; transform: translateY(-1px); }
+
+    /* PROGRESS BAR */
+    .progress-wrap {
+      background: #0b2e8c;
+      padding: 0 32px 14px;
+    }
+    .progress-track {
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #63b3ed;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* PAGE */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* STATUS SCREENS */
+    .status-screen {
+      max-width: 560px;
+      margin: 80px auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .status-icon { font-size: 48px; margin-bottom: 16px; }
+    .status-title { font-size: 22px; font-weight: 700; color: #2d3748; margin-bottom: 10px; }
+    .status-msg { font-size: 15px; color: #718096; line-height: 1.6; }
+
+    /* SECTION CARD */
+    .section-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 28px 28px 24px;
+      margin-bottom: 20px;
+    }
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ebf4ff;
+      color: #2b6cb0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .section-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 4px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: #718096;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f0f4f8;
+    }
+
+    /* QUESTION */
+    .question-block {
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f4f8;
+    }
+    .question-block:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .question-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #2d3748;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .question-text.rtl { direction: rtl; text-align: right; font-size: 15px; }
+    .question-metric {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a0aec0;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .optional-badge {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #4a5568;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* FOLLOW-UP - shown only on low score */
+    .followup-block {
+      display: none;
+      background: #fffbf0;
+      border-left: 3px solid #d97706;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    .followup-block.visible { display: block; }
+    .followup-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #d97706;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .followup-text {
+      font-size: 13px;
+      color: #744210;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .followup-textarea {
+      width: 100%;
+      min-height: 80px;
+      border: 1px solid #e2c98a;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      color: #2d3748;
+      resize: vertical;
+      outline: none;
+      transition: border 0.2s;
+      background: white;
+    }
+    .followup-textarea:focus { border-color: #d97706; }
+
+    /* LIKERT */
+    .likert-wrap {
+      display: flex;
+      gap: 6px;
+    }
+    .likert-option {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .likert-btn {
+      width: 100%;
+      padding: 14px 4px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a5568;
+      font-family: inherit;
+      transition: all 0.15s;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .likert-btn:hover { border-color: #a0aec0; background: #f7f9fc; }
+    .likert-btn.selected-neutral {
+      background: #d97706;
+      border-color: #d97706;
+      color: white;
+    }
+    .likert-btn.selected {
+      background: #276749;
+      border-color: #276749;
+      color: white;
+    }
+    .likert-btn.selected-strong-low {
+      background: #9b2c2c;
+      border-color: #9b2c2c;
+      color: white;
+    }
+    .likert-btn.selected-low {
+      background: #e53e3e;
+      border-color: #e53e3e;
+      color: white;
+    }
+    .likert-btn.selected-strong-high {
+      background: #1f5235;
+      border-color: #1f5235;
+      color: white;
+    }
+    .likert-btn.selected-high {
+      background: #38a169;
+      border-color: #38a169;
+      color: white;
+    }
+    .likert-label {
+      font-size: 10px;
+      color: #a0aec0;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* SLIDER (eNPS + Wellbeing) */
+    .slider-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .slider-buttons {
+      display: flex;
+      gap: 4px;
+    }
+    .slider-btn {
+      flex: 1;
+      height: 52px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      background: white;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4a5568;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .slider-btn:hover { border-color: #0b2e8c; color: #0b2e8c; background: #f0f4ff; }
+    .slider-btn.selected { background: #0b2e8c; border-color: #0b2e8c; color: white; }
+    .slider-btn.selected-low { background: #c53030; border-color: #c53030; color: white; }
+    .slider-btn.selected-mid { background: #d97706; border-color: #d97706; color: white; }
+    .slider-anchors {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #a0aec0;
+    }
+
+    /* OPEN TEXT */
+    .open-textarea {
+      width: 100%;
+      min-height: 100px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #2d3748;
+      resize: vertical;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .open-textarea:focus { border-color: #0b2e8c; }
+
+    /* INTENTION TO STAY - dropdown style */
+    .stay-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #2d3748;
+      outline: none;
+      background: white;
+      cursor: pointer;
+      transition: border 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23718096' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+    .stay-select:focus { border-color: #0b2e8c; }
+
+    /* NAV BUTTONS */
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      gap: 12px;
+    }
+    .btn-back {
+      padding: 12px 24px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      background: white;
+      color: #4a5568;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { border-color: #a0aec0; color: #2d3748; }
+    .btn-next {
+      padding: 12px 32px;
+      border: none;
+      border-radius: 10px;
+      background: #0b2e8c;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-left: auto;
+    }
+    .btn-next:hover { background: #0a2570; }
+    .btn-next:disabled { background: #a0aec0; cursor: not-allowed; }
+    .btn-submit {
+      padding: 14px 40px;
+      border: none;
+      border-radius: 10px;
+      background: #276749;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-left: auto;
+    }
+    .btn-submit:hover { background: #1f5235; }
+    .btn-submit:disabled { background: #a0aec0; cursor: not-allowed; }
+
+    .autosave-footer {
+      text-align: center;
+      font-size: 12px;
+      color: #a0aec0;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f4f8;
+    }
+
+    /* AUTOSAVE INDICATOR */
+    .autosave-indicator {
+      font-size: 11px;
+      color: #a0aec0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .autosave-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #a0aec0;
+      transition: background 0.3s;
+    }
+    .autosave-dot.saving { background: #d97706; }
+    .autosave-dot.saved  { background: #38a169; }
+
+    /* WELCOME CARD */
+    .welcome-card {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .welcome-greeting { font-size: 22px; font-weight: 700; color: #1a202c; margin-bottom: 8px; }
+    .welcome-sub { font-size: 14px; color: #718096; line-height: 1.7; margin-bottom: 20px; }
+    .welcome-sub strong { color: #0b2e8c; }
+    .welcome-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 16px;
+      background: #f7f9fc;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .meta-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #a0aec0; }
+    .meta-value { font-size: 13px; font-weight: 600; color: #2d3748; }
+    .draft-notice {
+      background: #fffbf0;
+      border: 1px solid #f6e05e;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #744210;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .draft-notice.visible { display: block; }
+
+    /* VALIDATION */
+    .unanswered-warning {
+      background: #fff5f5;
+      border: 1px solid #fc8181;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #c53030;
+      margin-top: 12px;
+      display: none;
+    }
+    .unanswered-warning.visible { display: block; }
+    .question-block.unanswered .question-text { color: #c53030; }
+    .question-block.unanswered .likert-wrap .likert-btn,
+    .question-block.unanswered .slider-btn { border-color: #fc8181; }
+    .followup-block.unanswered .followup-textarea { border-color: #fc8181; box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.15); }
+
+    /* SPINNER */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* LOADING */
+    #loadingScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 16px;
+    }
+    .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #0b2e8c;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .loading-text { font-size: 14px; color: #718096; }
+
+    @media (max-width: 900px) {
+      .header { padding: 14px 16px; }
+      .header-logo-wrap img { width: 115px; }
+      .progress-wrap { padding: 0 14px 10px; }
+      .page { padding: 18px 14px 70px; }
+      .section-card { padding: 18px 16px; }
+      .section-card img, .welcome-card img { max-height: 90px !important; }
+      .welcome-sub { font-size: 13px; line-height: 1.55; }
+      .welcome-card { padding: 20px 16px; }
+      .question-text { font-size: 14px; line-height: 1.5; margin-bottom: 12px; }
+      .likert-wrap { flex-wrap: wrap; gap: 6px; }
+      .likert-option { min-width: calc(33% - 4px); }
+      .likert-btn { padding: 11px 5px; font-size: 11px; }
+      .likert-label { font-size: 10px; }
+      .slider-btn { font-size: 12px; height: 46px; }
+      .slider-anchors { font-size: 11px; }
+      .open-textarea, .followup-textarea { font-size: 13px; min-height: 90px; padding: 11px 13px; }
+      .stay-select { font-size: 13px; padding: 11px 13px; padding-right: 38px; }
+      .btn-next, .btn-back { font-size: 13px; padding: 11px 22px; }
+      .btn-submit { font-size: 14px; padding: 13px 28px; }
+      .btn-lang-welcome { font-size: 13px; padding: 11px 18px; }
+      .autosave-footer { font-size: 11px; }
+      .followup-text { font-size: 12px; }
+      .followup-label { font-size: 10px; }
+      .optional-badge { font-size: 10px; padding: 3px 9px; }
+      .progress-label { font-size: 11px; }
+      .lang-toggle { font-size: 12px; padding: 7px 16px; }
+      .status-title { font-size: 19px; }
+      .status-msg { font-size: 13px; }
+      .status-icon { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-center">
+      <div class="header-logo-wrap">
+        <img src="https://lh3.googleusercontent.com/d/1Yj_Om40Zf-G5OLz-zUz0KY0Wq6pKTme1=w800" alt="Dsquares"
+          onerror="this.style.display='none'">
+      </div>
+    </div>
+    <button class="lang-toggle header-lang" id="langBtn" onclick="toggleLang()" style="display:none">
+      العربية
+    </button>
+  </div>
+
+  <div class="progress-wrap" id="progressWrap" style="display:none">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-label">
+      <span id="progressSection"></span>
+      <span id="progressStep"></span>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- LOADING -->
+    <div id="loadingScreen">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading your survey...</div>
+    </div>
+
+    <!-- STATUS (error / already submitted / closed) -->
+    <div id="statusScreen" style="display:none"></div>
+
+    <!-- WELCOME -->
+    <div id="welcomeScreen" style="display:none">
+      <div class="welcome-card">
+        <div style="display:flex; justify-content:center; margin-bottom:24px;">
+          <img src="https://lh3.googleusercontent.com/d/1nnW-Qx_tU4erRlaTbqipTg66uV8pgtC8=w800" alt="People Pulse" style="max-height:120px; width:auto;" onerror="this.style.display='none'">
+        </div>
+        <div id="welcomeContent"></div>
+        <div class="draft-notice" id="draftNotice">
+          You have a saved draft from a previous session. Your progress has been restored.
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:24px; align-items:center;">
+          <button class="btn-lang-welcome" id="welcomeLangBtn" onclick="toggleLang()">🌐&nbsp;&nbsp;Switch to <span id="welcomeLangLabel">العربية</span></button>
+          <button class="btn-next" onclick="startSurvey()" id="startBtn">Begin Survey</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SURVEY SECTIONS (rendered dynamically) -->
+    <div id="surveyScreen" style="display:none">
+      <div id="sectionContent"></div>
+      <div class="unanswered-warning" id="unansweredWarning">
+        Please answer all required questions before continuing.
+      </div>
+      <div class="autosave-footer">
+        Your progress auto-saves, so you can return later to continue answering.
+      </div>
+      <div class="nav-wrap">
+        <button class="btn-back" id="backBtn" onclick="goBack()" style="display:none">Back</button>
+        <div style="display:flex; align-items:center; gap:12px; margin-left:auto;">
+          <div class="autosave-indicator" id="autosaveIndicator">
+            <div class="autosave-dot" id="autosaveDot"></div>
+            <span id="autosaveText">Draft saved</span>
+          </div>
+          <button class="btn-next" id="nextBtn" onclick="goNext()">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- THANK YOU -->
+    <div id="thankYouScreen" style="display:none">
+      <div class="status-screen">
+        <div class="status-icon">🎉</div>
+        <div class="status-title" id="tyTitle">Thank you!</div>
+        <div class="status-msg" id="tyMsg">
+          Your responses have been submitted. We appreciate your honesty and time.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ─── STATE ───────────────────────────────────────────────────────────────
+
+    let lang = 'en';
+    let surveyYear = null;
+    let profile = null;
+    let answers = {};
+    let currentSection = 0;
+    let autosaveTimer = null;
+    let isSaving = false;
+
+    // ─── SURVEY DEFINITION ────────────────────────────────────────────────────
+
+    const LIKERT_LABELS = {
+      en: ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'],
+      ar: ['أرفض بشدة', 'أرفض', 'محايد', 'أوافق', 'أوافق بشدة'],
+    };
+
+    // Scores 1-5: 1,2 = low (trigger followup), 4,5 = positive
+    const LIKERT_VALUES = [1, 2, 3, 4, 5];
+
+    const SECTIONS = [
+      // ── 0: eNPS ──────────────────────────────────────────────────────────
+      {
+        id: 'enps',
+        name: { en: 'eNPS', ar: 'مؤشر صافي المروجين' },
+        desc: {
+          en: 'How likely are you to recommend Dsquares as a place to work?',
+          ar: 'ما مدى احتمالية توصيتك بالعمل في Dsquares؟',
+        },
+        questions: [
+          {
+            key: 'enps_enps_1',
+            type: 'slider10',
+            metric: { en: 'eNPS', ar: 'eNPS' },
+            text: {
+              en: 'On a scale of 1–10, how likely are you to recommend Dsquares as a great place to work to your family and friends?',
+              ar: 'من 1 إلى 10، ما مدى احتمالية أن توصي بشركة Dsquares كمكان رائع للعمل لأصدقائك وعائلتك؟',
+            },
+            required: true,
+          },
+        ],
+      },
+
+      // ── 1: Engagement ─────────────────────────────────────────────────────
+      {
+        id: 'engagement',
+        name: { en: 'Engagement', ar: 'الانخراط الوظيفي' },
+        desc: {
+          en: 'Your sense of involvement, commitment, and contribution to Dsquares.',
+          ar: 'مدى شعورك بالمشاركة والالتزام والمساهمة في Dsquares.',
+        },
+        questions: [
+          {
+            key: 'eng_engagement_1', type: 'likert', required: true,
+            metric: { en: 'Engagement', ar: 'الانخراط' },
+            text: { en: 'I am proud to work for Dsquares.', ar: 'أنا فخور بالعمل في Dsquares.' },
+          },
+          {
+            key: 'eng_engagement_2', type: 'likert', required: true,
+            metric: { en: 'Engagement', ar: 'الانخراط' },
+            text: { en: 'I am motivated to go beyond what is normally expected to help Dsquares be successful.', ar: 'أنا متحمس لتقديم أكثر مما هو متوقع مني للمساهمة في نجاح Dsquares.' },
+          },
+          {
+            key: 'eng_purpose_1', type: 'likert', required: true,
+            metric: { en: 'Purpose & Meaning', ar: 'الهدف والمعنى' },
+            text: { en: 'My work has special meaning and purpose: this is not "just a job".', ar: 'عملي له معنى وهدف بالنسبة لي؛ فهو ليس مجرد وظيفة.' },
+          },
+          {
+            key: 'eng_purpose_2', type: 'likert', required: true,
+            metric: { en: 'Purpose & Meaning', ar: 'الهدف والمعنى' },
+            text: { en: 'I understand how my job contributes to the wider business goals.', ar: 'أنا أعرف كيف يساهم دوري في تحقيق أهداف الشركة.' },
+          },
+          {
+            key: 'eng_growth_1', type: 'likert', required: true,
+            metric: { en: 'Career Growth & Development', ar: 'النمو المهني والتطوير' },
+            text: { en: 'I feel I can reach my full potential here.', ar: 'أنا أشعر أنني قادر على الوصول لكامل إمكانياتي في Dsquares.' },
+            followup: {
+              key: 'eng_growth_1_followup',
+              text: { en: 'What is limiting your ability to reach your full potential?', ar: 'سؤال متابعة: ما الذي يحدّ من قدرتك على الوصول و تحقيق كامل إمكانياتك؟' },
+            },
+          },
+          {
+            key: 'eng_growth_2', type: 'likert', required: true,
+            metric: { en: 'Career Growth & Development', ar: 'النمو المهني والتطوير' },
+            text: { en: 'I have a good understanding of the possible career paths available to me at Dsquares.', ar: 'لدي فهم جيد للمسارات المهنية المتاحة لي في Dsquares.' },
+          },
+          {
+            key: 'eng_growth_3', type: 'likert', required: true,
+            metric: { en: 'Career Growth & Development', ar: 'النمو المهني والتطوير' },
+            text: { en: 'I receive the relevant and useful training and development needed to do my job effectively.', ar: 'أنا أتلقى التدريب والتطوير المناسب و اللازم لأداء عملي بفعالية.' },
+          },
+          {
+            key: 'eng_growth_4', type: 'likert', required: true,
+            metric: { en: 'Career Growth & Development', ar: 'النمو المهني والتطوير' },
+            text: { en: 'My performance conversations focus on future growth, not just past evaluation.', ar: 'تركّز مناقشات الأداء الخاصة بي على التطور المستقبلي، وليس فقط التقييم السابق.' },
+          },
+          {
+            key: 'eng_growth_5', type: 'likert', required: true,
+            metric: { en: 'Career Growth & Development', ar: 'النمو المهني والتطوير' },
+            text: { en: 'When people change jobs internally or get promoted, they are supported and set up for success.', ar: 'عند ترقيت أو انتقال الموظفين داخليًا, يتم دعمهم وتجهيزهم للنجاح في الوظيفة الجديدة.' },
+          },
+          {
+            key: 'eng_comms_1', type: 'likert', required: true,
+            metric: { en: 'Communication', ar: 'التواصل' },
+            text: { en: 'I feel connected and engaged with the company through communications and channels that keep me informed.', ar: 'أشعر بالاندماج الوظيفي انى على اتصال مع الشركة من خلال قنوات التواصل التي تبقيني على اطلاع.' },
+          },
+          {
+            key: 'eng_efficiency_1', type: 'likert', required: true,
+            metric: { en: 'Efficiency & Performance', ar: 'الكفاءة والأداء' },
+            text: { en: 'I have full clarity on what is expected from me in my current role.', ar: 'لدي وضوح كامل بشأن ما هو متوقع مني في دوري الحالي.' },
+          },
+          {
+            key: 'eng_trust_1', type: 'likert', required: true,
+            metric: { en: 'Trust', ar: 'الثقة' },
+            text: { en: 'I have a caring and trusting relationship with my colleagues.', ar: 'أتمتع بعلاقة قائمة على الثقة والاهتمام مع زملائي.' },
+          },
+        ],
+      },
+
+      // ── 2: Culture ────────────────────────────────────────────────────────
+      {
+        id: 'culture',
+        name: { en: 'Culture', ar: 'الثقافة المؤسسية' },
+        desc: {
+          en: 'The extent to which Dsquares culture priorities are adopted as positive enablers of change.',
+          ar: 'مدى تبني أولويات ثقافة Dsquares كمحركات إيجابية للتغيير.',
+        },
+        questions: [
+          {
+            key: 'cul_values_1', type: 'likert', required: true,
+            metric: { en: 'Company Values', ar: 'قيم الشركة' },
+            text: { en: 'I know what the values of Dsquares are.', ar: 'أنا أعلم ما هي قيم Dsquares.' },
+          },
+          {
+            key: 'cul_values_2', type: 'likert', required: true,
+            metric: { en: 'Company Values', ar: 'قيم الشركة' },
+            text: { en: 'I fully support the values of Dsquares.', ar: 'أنا أدعم قيم Dsquares بشكل كامل.' },
+          },
+          {
+            key: 'cul_growth_1', type: 'likert', required: true,
+            metric: { en: 'Career Growth & Development', ar: 'النمو المهني والتطوير' },
+            text: { en: 'I have the opportunity to continually grow and learn at Dsquares.', ar: 'أنا لدي الفرصة للنمو والتعلّم بشكل مستمر في Dsquares.' },
+          },
+          {
+            key: 'cul_comms_1', type: 'likert', required: true,
+            metric: { en: 'Communication', ar: 'التواصل' },
+            text: { en: 'The company does a good job communicating to employees on matters that affect them.', ar: 'تقوم الشركة بالتواصل بشكل جيد مع الموظفين حول الأمور التي تؤثر عليهم.' },
+          },
+          {
+            key: 'cul_comms_2', type: 'likert', required: true,
+            metric: { en: 'Communication', ar: 'التواصل' },
+            text: { en: 'The company communicates its priorities, updates, and directions clearly.', ar: 'تقوم الشركة بتوضيح أولوياتها وتحديثاتها واتجاهاتها بشكل واضح.' },
+          },
+          {
+            key: 'cul_comms_3', type: 'likert', required: true,
+            metric: { en: 'Communication', ar: 'التواصل' },
+            text: { en: 'I am well informed about Dsquares business strategy and objectives.', ar: 'أنا على اطلاع جيد باستراتيجية الشركة وأهدافها.' },
+          },
+          {
+            key: 'cul_collab_1', type: 'likert', required: true,
+            metric: { en: 'Collaboration', ar: 'التعاون' },
+            text: { en: 'There is a spirit of cooperation and teamwork within my department.', ar: 'هناك روح تعاون وعمل جماعي جيد داخل إدارتي.' },
+          },
+          {
+            key: 'cul_collab_2', type: 'likert', required: true,
+            metric: { en: 'Collaboration', ar: 'التعاون' },
+            text: { en: 'There is good teamwork and cooperation between my department and other departments.', ar: 'هناك تعاون جيد بين إدارتي والإدارات الأخرى.' },
+            followup: {
+              key: 'cul_collab_2_followup',
+              text: { en: 'What is getting in the way of collaboration with other teams?', ar: 'سؤال متابعة: ما الذي يعيق التعاون مع الفرق الأخرى؟' },
+            },
+          },
+          {
+            key: 'cul_dei_1', type: 'likert', required: true,
+            metric: { en: 'Diversity, Equity & Inclusion', ar: 'التنوع والمساواة والشمول' },
+            text: { en: 'I am treated with respect and feel included in the team.', ar: 'أنا أُعامل باحترام وأشعر بالاندماج ضمن الفريق.' },
+          },
+          {
+            key: 'cul_dei_2', type: 'likert', required: true,
+            metric: { en: 'Diversity, Equity & Inclusion', ar: 'التنوع والمساواة والشمول' },
+            text: { en: 'I feel comfortable being my true and genuine self here.', ar: 'أنا أشعر بالراحة و قادر على أن أكون على طبيعتي هنا.' },
+          },
+          {
+            key: 'cul_dei_3', type: 'likert', required: true,
+            metric: { en: 'Diversity, Equity & Inclusion', ar: 'التنوع والمساواة والشمول' },
+            text: { en: 'The company treats employees fairly and provides equal opportunities for everyone to succeed.', ar: 'تعامل الشركة الموظفين بعدالة وتوفر فرصًا متكافئة للجميع للنجاح.' },
+          },
+          {
+            key: 'cul_efficiency_1', type: 'likert', required: true,
+            metric: { en: 'Efficiency & Performance', ar: 'الكفاءة والأداء' },
+            text: { en: 'I feel I have the right tools and resources (equipment, software, hardware, etc.) to do my job properly.', ar: 'لدي الأدوات والموارد اللازمة (مثل المعدات، البرامج، الأجهزة، إلخ) لأداء عملي بشكل صحيح.' },
+          },
+          {
+            key: 'cul_efficiency_2', type: 'likert', required: true,
+            metric: { en: 'Efficiency & Performance', ar: 'الكفاءة والأداء' },
+            text: { en: 'In my team, we are clear about who is responsible for what.', ar: 'في فريقي، هناك وضوح حول المسؤوليات والأدوار.' },
+          },
+          {
+            key: 'cul_efficiency_3', type: 'likert', required: true,
+            metric: { en: 'Efficiency & Performance', ar: 'الكفاءة والأداء' },
+            text: { en: 'In my team, the work is well organized and there is little wasted time or effort.', ar: 'في فريقي، يتم تنظيم العمل بشكل جيد مع تقليل الهدر في الوقت أو الجهد (مثل التكرار أو إعادة العمل).' },
+          },
+          {
+            key: 'cul_efficiency_4', type: 'likert', required: true,
+            metric: { en: 'Efficiency & Performance', ar: 'الكفاءة والأداء' },
+            text: { en: 'In my team, decisions are made efficiently enough to meet project timelines.', ar: 'في فريقي، يتم اتخاذ القرارات بكفاءة للوفاء بمواعيد المشاريع.' },
+          },
+          {
+            key: 'cul_trust_1', type: 'likert', required: true,
+            metric: { en: 'Trust', ar: 'الثقة' },
+            text: { en: 'I feel safe to ask questions, express different opinions and admit when I don\'t know something.', ar: 'أشعر بالأمان لطرح الأسئلة، والتعبير عن آرائي، والاعتراف عندما لا أعرف شيئًا.' },
+          },
+        ],
+      },
+
+      // ── 3: Wellbeing ──────────────────────────────────────────────────────
+      {
+        id: 'wellbeing',
+        name: { en: 'Wellbeing', ar: 'الرفاهية' },
+        desc: {
+          en: 'Your ability to achieve work-life balance and manage your mental health.',
+          ar: 'قدرتك على تحقيق التوازن بين العمل والحياة وإدارة صحتك النفسية.',
+        },
+        questions: [
+          {
+            key: 'wel_wellbeing_1', type: 'slider10', required: true,
+            metric: { en: 'Wellbeing Index', ar: 'مؤشر الرفاهية' },
+            text: { en: 'On a scale of 1–10, how would you rate your overall wellbeing on a typical work week?', ar: 'من 1 إلى 10، كيف تقيّم مستوى الصحة و الرفاه الوظيفي لديك خلال أسبوع عمل عادي؟' },
+            anchorLow: { en: 'Very Low', ar: 'منخفض جداً' },
+            anchorHigh: { en: 'Very High', ar: 'مرتفع جداً' },
+          },
+          {
+            key: 'wel_wellbeing_2', type: 'likert', required: true,
+            metric: { en: 'Wellbeing', ar: 'الرفاهية' },
+            text: { en: 'The flexible working policy contributes positively to balancing my work and personal life.', ar: 'سياسة العمل المرن في الشركة تساهم بشكل إيجابي في تحقيق التوازن بين حياتي العملية والشخصية.' },
+            followup: {
+              key: 'wel_wellbeing_2_followup',
+              text: { en: 'Please elaborate on the impact you are experiencing.', ar: 'سؤال متابعة: يرجى توضيح تأثير ذلك عليك.' },
+            },
+          },
+          {
+            key: 'wel_wellbeing_3', type: 'likert', required: true,
+            metric: { en: 'Wellbeing', ar: 'الرفاهية' },
+            text: { en: 'The amount of work expected of me is reasonable.', ar: 'حجم العمل المطلوب مني مقبول و معتدل.' },
+          },
+          {
+            key: 'wel_wellbeing_4', type: 'likert', required: true,
+            metric: { en: 'Wellbeing', ar: 'الرفاهية' },
+            text: { en: 'I am satisfied with my physical working environment (workspace, facilities, safety, etc.)', ar: 'أنا راضي عن بيئة العمل في الشركة من ناحية المكتب، المرافق، السلامة، إلخ.' },
+          },
+          {
+            key: 'wel_wellbeing_5', type: 'likert', required: true,
+            metric: { en: 'Wellbeing', ar: 'الرفاهية' },
+            text: { en: 'My manager is open to discuss concerns and make the necessary adjustments to support my mental wellbeing.', ar: 'مديري منفتح على مناقشة المخاوف وإجراء التعديلات اللازمة لدعم صحتي النفسية.' },
+          },
+        ],
+      },
+
+      // ── 4: Leadership ─────────────────────────────────────────────────────
+      {
+        id: 'leadership',
+        name: { en: 'Leadership', ar: 'القيادة' },
+        desc: {
+          en: 'The extent to which leaders build trust, support development and enable high performance.',
+          ar: 'مدى قيام القادة ببناء الثقة ودعم التطوير وتمكين الأداء العالي.',
+        },
+        questions: [
+          {
+            key: 'lea_trust_1', type: 'likert', required: true,
+            metric: { en: 'Trust', ar: 'الثقة' },
+            text: { en: 'I trust my manager/department manager.', ar: 'أنا أثق بمديري/مدير الإدارة.' },
+          },
+          {
+            key: 'lea_trust_2', type: 'likert', required: true,
+            metric: { en: 'Trust', ar: 'الثقة' },
+            text: { en: 'Senior leadership\'s actions match its words.', ar: 'تصرفات الإدارة العليا تتماشى مع أقوالها.' },
+          },
+          {
+            key: 'lea_strategy_1', type: 'likert', required: true,
+            metric: { en: 'Confidence in Strategy', ar: 'الثقة في الاستراتيجية' },
+            text: { en: 'I trust that the company is making the necessary changes to become more competitive and results-driven.', ar: 'أنا أثق بأن الشركة تتخذ الخطوات اللازمة لتصبح أكثر تنافسية وتركيزًا على النتائج.' },
+            followup: {
+              key: 'lea_strategy_1_followup',
+              text: { en: 'What could be missing for the company to become more performance and results-driven?', ar: 'سؤال متابعة: ما الذي يمكن للشركة فعله لتكون أكثر تركيزًا على الأداء والنتائج؟' },
+            },
+          },
+          {
+            key: 'lea_strategy_2', type: 'likert', required: true,
+            metric: { en: 'Confidence in Strategy', ar: 'الثقة في الاستراتيجية' },
+            text: { en: 'I believe the results of this survey will be used constructively by management.', ar: 'أؤمن بأن نتائج هذا الاستبيان سيتم استخدامها بشكل بنّاء من قبل الإدارة العليا.' },
+          },
+          {
+            key: 'lea_mgmt_1', type: 'likert', required: true,
+            metric: { en: 'Management', ar: 'الإدارة' },
+            text: { en: 'My manager/department manager listens when I have ideas or feedback.', ar: 'مديري يستمع إلى أفكاري وملاحظاتي.' },
+          },
+          {
+            key: 'lea_mgmt_2', type: 'likert', required: true,
+            metric: { en: 'Management', ar: 'الإدارة' },
+            text: { en: 'I am confident in my manager\'s ability to manage our team effectively and drive performance.', ar: 'أنا واثق من قدرة مديري على إدارة الفريق بفعالية وتحقيق الأداء المطلوب.' },
+            followup: {
+              key: 'lea_mgmt_2_followup',
+              text: { en: 'What could your manager do differently to improve team effectiveness?', ar: 'سؤال متابعة: ما الذي يمكن لمديرك القيام به بشكل مختلف لتحسين فعالية الفريق؟' },
+            },
+          },
+          {
+            key: 'lea_mgmt_3', type: 'likert', required: true,
+            metric: { en: 'Management', ar: 'الإدارة' },
+            text: { en: 'My manager spends time in coaching me, discussing my performance progress, and developing my skills.', ar: 'مديري يقضي وقتًا في توجيهي ومناقشة أدائي والتطوير من مهاراتي.' },
+          },
+          {
+            key: 'lea_mgmt_4', type: 'likert', required: true,
+            metric: { en: 'Management', ar: 'الإدارة' },
+            text: { en: 'My manager shows empathy when I share both personal and work-related concerns.', ar: 'مديري يُظهر تعاطفًه عندما أشارك مخاوفي الشخصية أو المتعلقة بالعمل.' },
+          },
+          {
+            key: 'lea_comms_1', type: 'likert', required: true,
+            metric: { en: 'Communication', ar: 'التواصل' },
+            text: { en: 'My manager sets clear priorities and shares important information, changes, and business updates.', ar: 'مديري يحدد الأولويات بوضوح ويشارك المعلومات والتحديثات المهمة.' },
+          },
+        ],
+      },
+
+      // ── 5: Reward & Recognition ───────────────────────────────────────────
+      {
+        id: 'reward',
+        name: { en: 'Reward & Recognition', ar: 'المكافأة والتقدير' },
+        desc: {
+          en: 'Your satisfaction with how contributions are recognised and rewarded.',
+          ar: 'مدى رضاك عن كيفية الاعتراف بمساهماتك ومكافأتها.',
+        },
+        questions: [
+          {
+            key: 'rew_recognition_1', type: 'likert', required: true,
+            metric: { en: 'Appreciation & Recognition', ar: 'التقدير والاعتراف' },
+            text: { en: 'My manager recognizes me for my contributions (big or small).', ar: 'يعترف مديري بمساهماتي (سواء كانت كبيرة أو صغيرة).' },
+          },
+          {
+            key: 'rew_recognition_2', type: 'likert', required: true,
+            metric: { en: 'Appreciation & Recognition', ar: 'التقدير والاعتراف' },
+            text: { en: 'I feel valued as an individual in my team.', ar: 'أنا أشعر بأنني مُقدّر كفرد في فريقي.' },
+          },
+          {
+            key: 'rew_recognition_3', type: 'likert', required: true,
+            metric: { en: 'Appreciation & Recognition', ar: 'التقدير والاعتراف' },
+            text: { en: 'In my department, we celebrate our individual and collective successes.', ar: 'في إدارتي، نخن نحتفل بالنجاحات الفردية والجماعية.' },
+          },
+          {
+            key: 'rew_recognition_4', type: 'likert', required: true,
+            metric: { en: 'Appreciation & Recognition', ar: 'التقدير والاعتراف' },
+            text: { en: 'Management shows appreciation for good work and extra effort.', ar: 'الادارة تظهرتقديرها للعمل الجيد والجهد الإضافي.' },
+          },
+          {
+            key: 'rew_rewards_1', type: 'likert', required: true,
+            metric: { en: 'Rewards & Benefits', ar: 'المكافآت والمزايا' },
+            text: { en: 'I am satisfied with my pay/compensation.', ar: 'أنا راضي عن راتبي/تعويضي المالي.' },
+          },
+          {
+            key: 'rew_rewards_2', type: 'likert', required: true,
+            metric: { en: 'Rewards & Benefits', ar: 'المكافآت والمزايا' },
+            text: { en: 'I am satisfied with the benefits offered (i.e. medical insurance, etc.)', ar: 'أنا راضي عن المزايا المقدمة من الشركة (مثل التأمين الطبي، إلخ).' },
+          },
+          {
+            key: 'rew_recognition_5', type: 'likert', required: true,
+            metric: { en: 'Appreciation & Recognition', ar: 'التقدير والاعتراف' },
+            text: { en: 'Recognition here is consistent and given in a timely manner.', ar: 'يتم تقديم التقدير هنا بشكل مستمر وفي الوقت المناسب.' },
+          },
+        ],
+      },
+
+      // ── 6: Intention to Stay ──────────────────────────────────────────────
+      {
+        id: 'intention',
+        name: { en: 'Intention to Stay', ar: 'نية البقاء' },
+        desc: {
+          en: 'Your likelihood of continuing your journey at Dsquares.',
+          ar: 'مدى احتمالية استمرارك في مسيرتك المهنية في Dsquares.',
+        },
+        questions: [
+          {
+            key: 'its_stay_1', type: 'likert', required: true,
+            metric: { en: 'Intention to Stay', ar: 'نية البقاء' },
+            text: { en: 'I would choose to stay with Dsquares even if offered the same pay and benefits elsewhere.', ar: 'سأختار البقاء في Dsquares حتى لو عُرض علي نفس الراتب والمزايا في مكان آخر.' },
+          },
+          {
+            key: 'its_stay_2', type: 'staySelect', required: true,
+            metric: { en: 'Intention to Stay', ar: 'نية البقاء' },
+            text: { en: 'I intend to keep working at Dsquares for…', ar: 'سأختار البقاء لالعمل في Dsquares لمدة…' },
+          },
+          {
+            key: 'its_stay_3', type: 'likert', required: true,
+            metric: { en: 'Intention to Stay', ar: 'نية البقاء' },
+            text: { en: 'Overall, my experience working at Dsquares meets my expectations.', ar: 'بشكل عام، تجربتي في العمل في Dsquares على مستوى توقعاتي.' },
+            followup: {
+              key: 'its_stay_3_followup',
+              text: { en: 'What aspects of your experience do not meet your expectations?', ar: 'سؤال متابعة: ما الجوانب التي لا تلبي توقعاتك؟' },
+            },
+          },
+        ],
+      },
+
+      // ── 7: Qualitative Feedback ───────────────────────────────────────────
+      {
+        id: 'qualitative',
+        name: { en: 'Open Feedback', ar: 'ملاحظات مفتوحة' },
+        desc: {
+          en: 'Your voice matters. Please share specific, actionable input — the more detail, the more useful.',
+          ar: 'رأيك يهمنا. يرجى مشاركة ملاحظات محددة وقابلة للتنفيذ — كلما زادت التفاصيل كلما كانت أكثر فائدة.',
+        },
+        questions: [
+          {
+            key: 'qual_dept_improve', type: 'openText', required: false,
+            metric: { en: 'Qualitative Feedback', ar: 'ملاحظات نوعية' },
+            text: { en: 'If there is one thing your department could improve, what would it be? (Please share specific input to enable a more accurate action).', ar: 'إذا كان هناك أمر واحد يمكن لفريقك تحسينه، فما هو؟ (يرجى تقديم اقتراح محدد لاتخاذ إجراء أكثر دقة)' },
+          },
+          {
+            key: 'qual_company_improve', type: 'openText', required: false,
+            metric: { en: 'Qualitative Feedback', ar: 'ملاحظات نوعية' },
+            text: { en: 'If there is one thing the company could improve, what would it be? (Please share specific input to enable a more accurate action).', ar: 'إذا كان هناك أمر واحد يمكن للشركة تحسينه، فما هو؟ (يرجى تقديم اقتراح محدد لاتخاذ إجراء أكثر دقة)' },
+          },
+          {
+            key: 'qual_improved_since', type: 'openText', required: false,
+            metric: { en: 'Qualitative Feedback', ar: 'ملاحظات نوعية' },
+            text: { en: 'What is the one thing that has improved following the last survey?', ar: 'ما هو أكثر شيء ترى أنه قد تحسّن منذ الاستبيان السابق؟' },
+          },
+        ],
+      },
+    ];
+
+    const STAY_OPTIONS = {
+      en: ['1–2 years', '3–5 years', '6+ years'],
+      ar: ['1-2 سنوات', '3-5 سنوات', '+6 سنوات'],
+    };
+
+    // ─── INIT ─────────────────────────────────────────────────────────────────
+
+    google.script.run
+      .withSuccessHandler(onInit)
+      .withFailureHandler(onInitError)
+      .initSurvey();
+
+    function onInit(result) {
+      document.getElementById('loadingScreen').style.display = 'none';
+
+      if (result.status === 'ok') {
+        surveyYear = result.surveyYear;
+        profile = result.profile;
+        if (result.draft) {
+          answers = result.draft;
+        }
+        showWelcome(result.draft != null);
+      } else {
+        showStatus(result.status, result.message);
+      }
+    }
+
+    function onInitError(err) {
+      document.getElementById('loadingScreen').style.display = 'none';
+      if (err.message && err.message.includes('WRONG_ACCOUNT')) {
+        const detectedEmail = err.message.split('WRONG_ACCOUNT::')[1] || '(unknown)';
+        showStatus('wrong_account',
+          'Please sign in with your Dsquares account (@dsquares.com) to access this survey.<br><br>' +
+          '<span style="font-size:12px; color:#a0aec0;">Detected account: <strong>' + detectedEmail + '</strong></span>'
+        );
+      } else {
+        showStatus('error', 'Could not load the survey: ' + err.message);
+      }
+    }
+
+    // ─── STATUS SCREEN ────────────────────────────────────────────────────────
+
+    function showStatus(status, message) {
+      const icons = {
+        already_submitted: '✅',
+        closed: '🔒',
+        not_open_yet: '📅',
+        not_found: '❓',
+        wrong_account: '🔐',
+        too_new: '👋',
+        error: '⚠️',
+      };
+      const titles = {
+        already_submitted: 'Already Submitted',
+        closed: 'Survey Closed',
+        not_open_yet: 'Not Open Yet',
+        not_found: 'Not Found',
+        wrong_account: 'Wrong Account',
+        too_new: 'Welcome!',
+        error: 'Something went wrong',
+      };
+      const el = document.getElementById('statusScreen');
+      const title = titles[status] || 'Notice';
+      const extra = status === 'wrong_account' ? buildAuthuserButtons() : '';
+      el.innerHTML = `
+        <div class="status-screen">
+          <div class="status-icon">${icons[status] || 'ℹ️'}</div>
+          <div class="status-title">${title}</div>
+          <div class="status-msg">${message}</div>
+          ${extra}
+        </div>`;
+      el.style.display = 'block';
+    }
+
+    const DEPLOY_URL = 'https://script.google.com/macros/s/AKfycbyMLsfcghuytWTbpxLCaQhkjnQr_GWWMU0Tvup1PW7uuOZdmRMSBEZ8Zcw4838RL1SBgg/exec';
+
+    function buildAuthuserButtons() {
+      // Detect current authuser from the parent URL (default 0)
+      let current = 0;
+      try {
+        const parentUrl = new URL(window.top.location.href);
+        current = parseInt(parentUrl.searchParams.get('authuser')) || 0;
+      } catch(e) {
+        try {
+          const refUrl = new URL(document.referrer);
+          current = parseInt(refUrl.searchParams.get('authuser')) || 0;
+        } catch(e2) {}
+      }
+
+      // Suggest the next 3 authuser values, skipping the current one
+      const candidates = [];
+      for (let i = 0; candidates.length < 3; i++) {
+        if (i !== current) candidates.push(i);
+      }
+
+      const btns = candidates.map((n, i) => {
+        const target = DEPLOY_URL + '?authuser=' + n;
+        return `<button class="btn-next" style="margin:6px;" onclick="window.top.location.href='${target}'">Try account ${i + 1}</button>`;
+      }).join('');
+
+      return `
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid #f0f4f8;">
+          <div style="font-size:13px; color:#4a5568; margin-bottom:12px;">
+            Signed in with multiple Google accounts? Try opening the survey with a different one:
+          </div>
+          <div style="display:flex; justify-content:center; flex-wrap:wrap;">${btns}</div>
+        </div>`;
+    }
+
+    // ─── WELCOME ──────────────────────────────────────────────────────────────
+
+    const WELCOME_COPY = {
+      en: `
+        <div class="welcome-sub"><strong>Hello Dsquarians, welcome to People Pulse!</strong></div>
+        <div class="welcome-sub" style="margin-top: 12px;">
+          This space is your opportunity to share honest feedback about your experience at Dsquares.
+          Your responses are <strong>completely anonymous</strong>, and only overall results will be shared with leadership.
+        </div>
+        <div class="welcome-sub" style="margin-top: 12px;">
+          This survey will take approximately <strong>15 minutes</strong> to complete, but <strong>your progress autosaves so you can continue responding at any point</strong>. Just reopen the page.
+        </div>
+      `,
+      ar: `
+        <div class="welcome-sub" dir="rtl" style="text-align:right;"><strong>مرحباً بكم في People Pulse، يا Dsquarians!</strong></div>
+        <div class="welcome-sub" dir="rtl" style="text-align:right; margin-top: 12px;">
+          هذه المساحة هي فرصتك لمشاركة ملاحظاتك الصادقة حول تجربتك في Dsquares.
+          إجاباتك <strong>سرية تماماً</strong>، وسيتم مشاركة النتائج الإجمالية فقط مع الإدارة.
+        </div>
+        <div class="welcome-sub" dir="rtl" style="text-align:right; margin-top: 12px;">
+          سيستغرق هذا الاستبيان حوالي <strong>15 دقيقة</strong> لإكماله، ولكن <strong>يتم حفظ إجاباتك تلقائياً، لذا يمكنك متابعة الإجابة في أي وقت</strong>. فقط أعد فتح الصفحة.
+        </div>
+      `,
+    };
+
+    function showWelcome(hasDraft) {
+      document.getElementById('langBtn').style.display = 'block';
+      document.getElementById('welcomeContent').innerHTML = WELCOME_COPY[lang];
+      if (hasDraft) document.getElementById('draftNotice').classList.add('visible');
+      document.getElementById('welcomeScreen').style.display = 'block';
+    }
+
+    function startSurvey() {
+      document.getElementById('welcomeScreen').style.display = 'none';
+      document.getElementById('surveyScreen').style.display = 'block';
+      document.getElementById('progressWrap').style.display = 'block';
+      renderSection();
+      scheduleAutosave();
+    }
+
+    // ─── SECTION RENDER ───────────────────────────────────────────────────────
+
+    function renderSection() {
+      const sec = SECTIONS[currentSection];
+      const isLast = currentSection === SECTIONS.length - 1;
+      const container = document.getElementById('sectionContent');
+      container.innerHTML = '';
+
+      const card = document.createElement('div');
+      card.className = 'section-card';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:center; margin-bottom:20px;">
+          <img src="https://lh3.googleusercontent.com/d/1nnW-Qx_tU4erRlaTbqipTg66uV8pgtC8=w800" alt="People Pulse" style="max-height:90px; width:auto;" onerror="this.style.display='none'">
+        </div>
+      `;
+
+      sec.questions.forEach(q => {
+        const block = document.createElement('div');
+        block.className = 'question-block';
+        block.dataset.key = q.key;
+
+        if (q.type === 'openText') {
+          const optBadge = document.createElement('div');
+          optBadge.className = 'optional-badge';
+          optBadge.textContent = 'Optional';
+          block.appendChild(optBadge);
+        }
+
+        const textDiv = document.createElement('div');
+        textDiv.className = 'question-text' + (lang === 'ar' ? ' rtl' : '');
+        textDiv.textContent = q.text[lang];
+
+        block.appendChild(textDiv);
+
+        // Input
+        if (q.type === 'likert') {
+          block.appendChild(renderLikert(q));
+        } else if (q.type === 'slider10') {
+          block.appendChild(renderSlider10(q));
+        } else if (q.type === 'openText') {
+          block.appendChild(renderOpenText(q));
+        } else if (q.type === 'staySelect') {
+          block.appendChild(renderStaySelect(q));
+        }
+
+        // Follow-up
+        if (q.followup) {
+          block.appendChild(renderFollowup(q));
+          updateFollowup(q.key, answers[q.key]);
+        }
+
+        card.appendChild(block);
+      });
+
+      container.appendChild(card);
+
+      // Nav buttons
+      document.getElementById('backBtn').style.display = currentSection > 0 ? 'block' : 'none';
+      const nextBtn = document.getElementById('nextBtn');
+      if (isLast) {
+        nextBtn.style.display = 'none';
+        const submitBtn = document.getElementById('submitBtn');
+        if (!submitBtn) {
+          const btn = document.createElement('button');
+          btn.id = 'submitBtn';
+          btn.className = 'btn-submit';
+          btn.textContent = 'Submit Survey';
+          btn.onclick = submitSurvey;
+          document.querySelector('.nav-wrap').appendChild(btn);
+        }
+      } else {
+        nextBtn.style.display = 'block';
+        nextBtn.textContent = 'Next';
+        const existing = document.getElementById('submitBtn');
+        if (existing) existing.remove();
+      }
+
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ─── INPUT RENDERERS ──────────────────────────────────────────────────────
+
+    function renderLikert(q) {
+      const wrap = document.createElement('div');
+      wrap.className = 'likert-wrap';
+      LIKERT_VALUES.forEach((val, i) => {
+        const opt = document.createElement('div');
+        opt.className = 'likert-option';
+        const btn = document.createElement('button');
+        btn.className = 'likert-btn';
+        btn.type = 'button';
+        const btnClass = val === 1 ? 'selected-strong-low'
+                       : val === 2 ? 'selected-low'
+                       : val === 3 ? 'selected-neutral'
+                       : val === 4 ? 'selected-high'
+                       : 'selected-strong-high';
+        if (answers[q.key] === val) btn.classList.add(btnClass);
+        btn.addEventListener('click', () => {
+          wrap.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('selected', 'selected-low', 'selected-strong-low', 'selected-neutral', 'selected-high', 'selected-strong-high'));
+          btn.classList.add(btnClass);
+          answers[q.key] = val;
+          updateFollowup(q.key, val);
+          clearUnanswered(q.key);
+          scheduleAutosave();
+        });
+        const lbl = document.createElement('div');
+        lbl.className = 'likert-label';
+        lbl.textContent = LIKERT_LABELS[lang][i];
+        opt.appendChild(btn);
+        opt.appendChild(lbl);
+        wrap.appendChild(opt);
+      });
+      return wrap;
+    }
+
+    function renderSlider10(q) {
+      const wrap = document.createElement('div');
+      wrap.className = 'slider-wrap';
+      const btns = document.createElement('div');
+      btns.className = 'slider-buttons';
+      for (let v = 1; v <= 10; v++) {
+        const btn = document.createElement('button');
+        btn.className = 'slider-btn';
+        btn.type = 'button';
+        btn.textContent = v;
+        const cls = v <= 6 ? (v <= 4 ? 'selected-low' : 'selected-mid') : 'selected';
+        if (answers[q.key] === v) btn.classList.add(cls);
+        btn.addEventListener('click', () => {
+          btns.querySelectorAll('.slider-btn').forEach(b => b.classList.remove('selected', 'selected-low', 'selected-mid'));
+          btn.classList.add(cls);
+          answers[q.key] = v;
+          clearUnanswered(q.key);
+          scheduleAutosave();
+        });
+        btns.appendChild(btn);
+      }
+      const anchors = document.createElement('div');
+      anchors.className = 'slider-anchors';
+      const low  = q.anchorLow  ? q.anchorLow[lang]  : (lang === 'en' ? 'Not at all likely' : 'غير محتمل إطلاقاً');
+      const high = q.anchorHigh ? q.anchorHigh[lang] : (lang === 'en' ? 'Extremely likely'  : 'محتمل جداً');
+      anchors.innerHTML = `<span>${low}</span><span>${high}</span>`;
+      wrap.appendChild(btns);
+      wrap.appendChild(anchors);
+      return wrap;
+    }
+
+    function renderOpenText(q) {
+      const ta = document.createElement('textarea');
+      ta.className = 'open-textarea';
+      ta.placeholder = 'Optional · Share your thoughts here, or leave blank to skip...';
+      if (answers[q.key]) ta.value = answers[q.key];
+      ta.addEventListener('input', () => {
+        answers[q.key] = ta.value;
+        scheduleAutosave();
+      });
+      return ta;
+    }
+
+    function renderStaySelect(q) {
+      const sel = document.createElement('select');
+      sel.className = 'stay-select';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Select an option...';
+      placeholder.disabled = true;
+      placeholder.selected = !answers[q.key];
+      sel.appendChild(placeholder);
+      STAY_OPTIONS[lang].forEach((opt, i) => {
+        const o = document.createElement('option');
+        o.value = STAY_OPTIONS.en[i];
+        o.textContent = opt;
+        if (answers[q.key] === STAY_OPTIONS.en[i]) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', () => {
+        answers[q.key] = sel.value;
+        clearUnanswered(q.key);
+        scheduleAutosave();
+      });
+      return sel;
+    }
+
+    function renderFollowup(q) {
+      const wrap = document.createElement('div');
+      wrap.className = 'followup-block';
+      wrap.dataset.followupFor = q.key;
+      const lbl = document.createElement('div');
+      lbl.className = 'followup-label';
+      lbl.textContent = 'Follow-up · Required';
+      const txt = document.createElement('div');
+      txt.className = 'followup-text';
+      txt.textContent = q.followup.text[lang];
+      const ta = document.createElement('textarea');
+      ta.className = 'followup-textarea';
+      ta.placeholder = 'Please share more detail...';
+      if (answers[q.followup.key]) ta.value = answers[q.followup.key];
+      ta.addEventListener('input', () => {
+        answers[q.followup.key] = ta.value;
+        if (ta.value.trim()) wrap.classList.remove('unanswered');
+        scheduleAutosave();
+      });
+      wrap.appendChild(lbl);
+      wrap.appendChild(txt);
+      wrap.appendChild(ta);
+      return wrap;
+    }
+
+    function updateFollowup(parentKey, value) {
+      const followupEl = document.querySelector(`[data-followup-for="${parentKey}"]`);
+      if (!followupEl) return;
+      const numVal = Number(value);
+      const isLow = numVal === 1 || numVal === 2;
+      followupEl.classList.toggle('visible', isLow);
+      // If no longer low, clear any stale "unanswered" styling
+      if (!isLow) followupEl.classList.remove('unanswered');
+    }
+
+    // ─── VALIDATION ───────────────────────────────────────────────────────────
+
+    function validateSection() {
+      const sec = SECTIONS[currentSection];
+      let allAnswered = true;
+      sec.questions.forEach(q => {
+        if (q.required) {
+          const block = document.querySelector(`.question-block[data-key="${q.key}"]`);
+          const hasAnswer = answers[q.key] !== undefined && answers[q.key] !== '' && answers[q.key] !== null;
+          if (!hasAnswer) {
+            allAnswered = false;
+            block.classList.add('unanswered');
+          } else {
+            block.classList.remove('unanswered');
+          }
+        }
+        // Followup is required ONLY if parent answer is exactly 1 or 2 (Strongly Disagree / Disagree)
+        const parentVal = Number(answers[q.key]);
+        const isLow = parentVal === 1 || parentVal === 2;
+        const followupEl = q.followup ? document.querySelector(`[data-followup-for="${q.key}"]`) : null;
+        if (q.followup && isLow) {
+          const followupAnswer = answers[q.followup.key];
+          if (!followupAnswer || !followupAnswer.trim()) {
+            allAnswered = false;
+            if (followupEl) followupEl.classList.add('unanswered');
+          } else {
+            if (followupEl) followupEl.classList.remove('unanswered');
+          }
+        } else if (followupEl) {
+          followupEl.classList.remove('unanswered');
+        }
+      });
+      const warning = document.getElementById('unansweredWarning');
+      warning.classList.toggle('visible', !allAnswered);
+      return allAnswered;
+    }
+
+    function clearUnanswered(key) {
+      const block = document.querySelector(`.question-block[data-key="${key}"]`);
+      if (block) block.classList.remove('unanswered');
+      document.getElementById('unansweredWarning').classList.remove('visible');
+    }
+
+    // ─── NAVIGATION ───────────────────────────────────────────────────────────
+
+    function goNext() {
+      if (!validateSection()) return;
+      currentSection++;
+      renderSection();
+    }
+
+    function goBack() {
+      currentSection--;
+      renderSection();
+    }
+
+    // ─── PROGRESS ─────────────────────────────────────────────────────────────
+
+    function updateProgress() {
+      const pct = ((currentSection) / SECTIONS.length * 100).toFixed(0);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressSection').textContent = '';
+      document.getElementById('progressStep').textContent =
+        `${currentSection + 1} / ${SECTIONS.length}`;
+    }
+
+    // ─── AUTOSAVE ─────────────────────────────────────────────────────────────
+
+    function scheduleAutosave() {
+      clearTimeout(autosaveTimer);
+      setAutosaveState('saving');
+      autosaveTimer = setTimeout(() => {
+        google.script.run
+          .withSuccessHandler(() => setAutosaveState('saved'))
+          .withFailureHandler(() => setAutosaveState('error'))
+          .autoSaveDraft(answers);
+      }, 2000);
+    }
+
+    function setAutosaveState(state) {
+      const dot = document.getElementById('autosaveDot');
+      const txt = document.getElementById('autosaveText');
+      dot.className = 'autosave-dot';
+      isSaving = state === 'saving';
+
+      const submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) submitBtn.disabled = isSaving;
+
+      if (state === 'saving') {
+        dot.classList.add('saving');
+        txt.textContent = 'Saving...';
+      } else if (state === 'saved') {
+        dot.classList.add('saved');
+        txt.textContent = 'Draft saved';
+      } else {
+        txt.textContent = 'Save failed';
+      }
+    }
+
+    // ─── SUBMIT ───────────────────────────────────────────────────────────────
+
+    function submitSurvey() {
+      if (!validateSection()) return;
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Submitting...';
+
+      google.script.run
+        .withSuccessHandler(onSubmitSuccess)
+        .withFailureHandler(onSubmitError)
+        .submitSurvey(answers);
+    }
+
+    function onSubmitSuccess(result) {
+      if (result.status === 'already_submitted') {
+        showStatus('already_submitted', 'It looks like you already submitted this survey.');
+        return;
+      }
+      document.getElementById('surveyScreen').style.display = 'none';
+      document.getElementById('progressWrap').style.display = 'none';
+      document.getElementById('thankYouScreen').style.display = 'block';
+    }
+
+    function onSubmitError(err) {
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = false;
+      btn.textContent = 'Submit Survey';
+      alert('Submission failed: ' + err.message);
+    }
+
+    // ─── LANGUAGE TOGGLE ──────────────────────────────────────────────────────
+
+    function toggleLang() {
+      lang = lang === 'en' ? 'ar' : 'en';
+      const label = lang === 'en' ? 'العربية' : 'English';
+      document.getElementById('langBtn').textContent = label;
+      const wLabel = document.getElementById('welcomeLangLabel');
+      if (wLabel) wLabel.textContent = label;
+      // Re-render welcome copy if visible
+      const welcomeVisible = document.getElementById('welcomeScreen').style.display !== 'none';
+      if (welcomeVisible) {
+        document.getElementById('welcomeContent').innerHTML = WELCOME_COPY[lang];
+      }
+      // Re-render questions if survey is in progress
+      if (document.getElementById('surveyScreen').style.display !== 'none') {
+        renderSection();
+      }
+    }
+  </script>
+</body>
+</html>
